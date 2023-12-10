@@ -1,0 +1,50 @@
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url('../images/bgg.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  color: red; /* Set the text color to white */
+  }
+
+  
+  
+  .topnav {
+    overflow: hidden;
+    background-color: transparent #333;
+    background-color: transparent !important; /* Set background color to transparent */
+    border-bottom: none; /* Remove the border if needed */
+    background-color: rgba(255, 255, 255, 0.2); /* Set a transparent background color */
+    backdrop-filter: blur(50px); /* Apply the blurry effect */
+    padding: 8px;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .topnav a:hover {
+    background-color: #2968b1;
+    color: rgb(255, 255, 255);
+  }
+
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .button2 {background-color: #008CBA;} /* Blue */
