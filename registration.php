@@ -1,7 +1,13 @@
 <?php
-include('connection.php');
+session_start();
 
-// Define error message variables
+if (isset($_SESSION['user_authenticated']) && $_SESSION['user_authenticated'] === true) {
+    // User is already authenticated, redirect to the dashboard page
+    header('Location: dashboard.php');
+    exit;
+}
+
+include('connection.php');
 $passwordError = '';
 $usernameError = '';
 

@@ -1,6 +1,5 @@
 <?php include  ('connection.php');
 session_start();
-include('connection.php');
 
 if (!isset($_SESSION['user_id'])) {
     die('User ID not found in session');
@@ -25,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO user_info (user_id, first_name, last_name, contact_number, address, email, image) VALUES ('$userId', '$firstName', '$lastName', '$contact', '$address', '$email', '$targetFile')";
 
     if (mysqli_query($conn, $sql)) {
-        echo "User information submitted successfully.";
+        echo "<script>alert('User information submitted successfully.'); window.location.href='dashboard.php';</script>";
+        exit;
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }

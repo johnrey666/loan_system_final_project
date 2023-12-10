@@ -3,8 +3,21 @@ session_start();
 include('connection.php');
 
 if (!isset($_SESSION['user_id'])) {
-    die('User ID not found in session');
+    header('Location: login.php');
+    exit;
 }
+$userId = $_SESSION['user_id'];
+
+// Check if the user has already submitted a form
+$checkFormQuery = "SELECT * FROM user_info WHERE user_id = '$userId' AND verified = 0";
+$checkFormResult = mysqli_query($conn, $checkFormQuery);
+
+if (mysqli_num_rows($checkFormResult) > 0) {
+    echo "<script>alert('You have already submitted a form. Please wait for it to be approved.'); window.location.href='dashboard.php';</script>";
+    exit;
+}
+
+include('header.php');
 
 ?>
 <!DOCTYPE html>
@@ -30,14 +43,7 @@ if (!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body>
-    <header class="header-section">
-        <h1>Welcome, <?php echo $_SESSION['username']; ?></h1>
-   
-            <a href="user_info_form.php" class="btn btn-primary">Update Information</a>
-            <a href="lend_request.php" class="btn btn-primary">Lend Request</a>
-            <a href="logout.php" style="float: right;">Sign-out</a> 
-        
-    </header>
+
 
     <div class="container mt-5">
         <h2>User Information</h2>

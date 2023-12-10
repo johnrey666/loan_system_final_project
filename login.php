@@ -1,18 +1,22 @@
 <?php
 session_start();
 
+if (isset($_SESSION['user_authenticated']) && $_SESSION['user_authenticated'] === true) {
+    // User is already authenticated, redirect to the dashboard page
+    header('Location: dashboard.php');
+    exit;
+}
+
 include('connection.php');
 
-// After successful login
-$_SESSION['user_authenticated'] = true;
 
-// Initialize error messages
+
 $usernameError = '';
 $passwordError = '';
 
-// Rate limiting and account lockout settings
-$maxLoginAttempts = 2;  // Maximum allowed login attempts
-$lockoutDuration = 10; // Lockout duration in seconds (e.g., 5 minutes)
+
+$maxLoginAttempts = 2;  
+$lockoutDuration = 10; 
 
 if (isset($_POST['submit'])) {
     $u_name = $_POST['u_name'];
@@ -32,9 +36,9 @@ if (isset($_POST['submit'])) {
             $data = mysqli_fetch_array($result);
 
             if ($data) {
-                // Verify the password
+               
                 if (password_verify($u_pass, $data['u_pass'])) {
-                    // Password change policy: Check if it's time to change the password
+                    
                     $passwordChangeDate = strtotime($data['password_change_date']);
                     $currentDate = strtotime(date('Y-m-d h:i:s'));
                     $daysSinceLastChange = ($currentDate - $passwordChangeDate) / (60 * 60 * 24);
@@ -46,8 +50,15 @@ if (isset($_POST['submit'])) {
                         unset($_SESSION['login_attempts']);
                         $_SESSION['user_role'] = $data['role'];
                         $_SESSION['username'] = $data['u_name'];
-                        $_SESSION['user_id'] = $data['id'];  // Add this line
-                        header('location: dashboard.php');
+                        $_SESSION['user_id'] = $data['id'];  
+                        $_SESSION['user_authenticated'] = true;  
+                
+                        // Redirect based on user role
+                        if ($data['role'] == 'admin') {
+                            header('location: admin_dashboard.php');
+                        } else {
+                            header('location: dashboard.php');
+                        }
                     }
                 } else {
                     $passwordError = 'Incorrect password';
@@ -64,7 +75,7 @@ if (isset($_POST['submit'])) {
                 $usernameError = 'Username not registered';
             }
         } else {
-            // Handle database query error
+            
             echo 'Database query error: ' . mysqli_error($conn);
         }
     }
@@ -116,10 +127,10 @@ if (isset($_POST['submit'])) {
    <div class="input-group">
    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="u_pass">
    <span class="input-group-text" id="password-toggle" onclick="togglePasswordVisibility()">
-   <i class="fas fa-eye"></i> <!-- Show icon -->
+   <i class="fas fa-eye"></i>
    </span>
    </div>
-   <!-- Display password error message -->
+   
    <div style="color: red;"><?php echo $passwordError; ?></div>
 </div>
 
@@ -128,37 +139,34 @@ if (isset($_POST['submit'])) {
 </div>
 </div>
 </center>
-<!-- end of form section -->
+
 
 </body>
 </html>
 
-<!-- js -->
+
 <script src="js/script.js"></script>
 
-<!-- Add this script within your HTML file, preferably just before the closing </body> tag -->
+
 <script>
-// Function to hide the error message after a specified duration
+
 function hideErrorMessage() {
     var errorMessage = document.getElementById("error-message");
     if (errorMessage) {
         errorMessage.style.display = "block"; // Display the error message
         setTimeout(function() {
-            errorMessage.style.display = "none"; // Hide the error message after a duration
-            // Restart the countdown only if the account is locked
+            errorMessage.style.display = "none"; 
             if (<?php echo isset($_SESSION['lockout_time']) && $_SESSION['lockout_time'] > time() ? 'true' : 'false'; ?>) {
                 startCountdown();
             }
-        }, 10000); // 10000 milliseconds (10 seconds) - change this duration as needed
+        }, 10000); 
     }
 }
 
-// Function to start the countdown
 function startCountdown() {
-    setTimeout(hideErrorMessage, 0); // Start countdown immediately
+    setTimeout(hideErrorMessage, 0); 
 }
 
-// Call the function when the page loads to initiate the countdown
 window.onload = hideErrorMessage;
 </script>
 
