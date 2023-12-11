@@ -1,14 +1,13 @@
-
 <?php
-
 
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true || $_SESSION['user_role'] !== 'admin') {
-    // User is not authenticated or not an admin, redirect to the dashboard page
-    header('Location: dashboard.php');
+    // User is not authenticated or not an admin, redirect to the login page
+    header('Location: login.php');
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
