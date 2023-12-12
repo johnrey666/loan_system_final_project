@@ -16,9 +16,9 @@ if ($action == 'accept') {
     $updateQuery = "UPDATE loan_applications SET status = 'accepted' WHERE id = '$applicationId'";
     mysqli_query($conn, $updateQuery);
 } elseif ($action == 'reject') {
-    // Delete the loan application from the database
-    $deleteQuery = "DELETE FROM loan_applications WHERE id = '$applicationId'";
-    mysqli_query($conn, $deleteQuery);
+    // Update the loan application's status to 'rejected'
+    $updateQuery = "UPDATE loan_applications SET status = 'rejected' WHERE id = '$applicationId'";
+    mysqli_query($conn, $updateQuery);
 }
 header('Location: admin_loan_form.php');
 exit;

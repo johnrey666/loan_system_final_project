@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
                         $_SESSION['user_id'] = $data['id'];  
                         $_SESSION['user_authenticated'] = true;  
                 
-                        // Redirect based on user role
+                       
                         if ($data['role'] == 'admin') {
                             header('location: admin_dashboard.php');
                         } else {
@@ -118,8 +118,7 @@ if (isset($_POST['submit'])) {
 
 <div class="mb-3" style="width: 400px;">
     <label for="email">Username:</label>
-    <input type="text" class="form-control" id="email" placeholder="Enter username" name="u_name">
-    <!-- Display username error message -->
+    <input type="text" class="form-control" id="email" placeholder="Enter username" name="u_name" required oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);">    <!-- Display username error message -->
     <div style="color: red;"><?php echo $usernameError; ?></div>
 </div>
 

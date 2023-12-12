@@ -9,8 +9,14 @@ if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !
 }
 
 // Fetch user information from the database
-$query = "SELECT * FROM user_info WHERE verified = 0"; // Assuming there's a 'verified' column
+$query = "SELECT * FROM user_info WHERE verified = 0"; 
 $result = mysqli_query($conn, $query);
+
+$queryPending = "SELECT * FROM loan_applications WHERE status = 'pending'"; 
+$resultPending = mysqli_query($conn, $queryPending);
+
+$queryHistory = "SELECT * FROM loan_applications WHERE status IN ('accepted', 'rejected')"; 
+$resultHistory = mysqli_query($conn, $queryHistory);
 
 include('admin_dashboard.php');
 ?>
@@ -62,7 +68,7 @@ $result = mysqli_query($conn, $query);
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+            <?php while ($row = mysqli_fetch_assoc($resultPending)): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($row['first_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['last_name']); ?></td>
@@ -77,6 +83,37 @@ $result = mysqli_query($conn, $query);
                     </tr>
                 <?php endwhile; ?>
             </tbody>
+        </table>
+    </div>
+
+    <br><br><br><br><br>
+    <div class="container mt-5">
+        <h2>Loan Application History</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Amount</th>
+                    <th>Purpose</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($resultHistory)): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['amount']); ?></td>
+                            <td><?php echo htmlspecialchars($row['purpose']); ?></td>
+                            <td><?php echo htmlspecialchars($row['message']); ?></td>
+                            <td><?php echo htmlspecialchars($row['status']); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
         </table>
     </div>
 </body>

@@ -14,6 +14,7 @@ $result = mysqli_query($conn, $query);
 
 // Fetch verified users from the database
 $query_verified = "SELECT * FROM user_info WHERE verified = 1";
+
 $result_verified = mysqli_query($conn, $query_verified);
 
 include('admin_dashboard.php');
@@ -60,7 +61,7 @@ include('admin_dashboard.php');
             </tbody>
         </table>
 
-    
+    <br><br><br><br><br>
     <h2>Verified Users</h2>
     <table class="table">
         <thead>

@@ -2,13 +2,19 @@
 session_start();
 include('connection.php');
 
+$query = "SELECT * FROM user_info WHERE user_id = " . $_SESSION['user_id'];
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 $userId = $_SESSION['user_id'];
 
-$query = "SELECT verified FROM user_info WHERE id = " . $_SESSION['user_id'];
+$query = "SELECT * FROM user_info WHERE user_id = " . $_SESSION['user_id'];
+$result = mysqli_query($conn, $query);
+$userInfo = mysqli_fetch_assoc($result);
+
+$query = "SELECT verified FROM users WHERE id = " . $_SESSION['user_id'];
 $result = mysqli_query($conn, $query);
 $user = mysqli_fetch_assoc($result);
 
@@ -20,6 +26,18 @@ if ($user['verified'] != 1) {
     exit;
 }
 
+
+$query = "SELECT * FROM loan_applications WHERE user_id = " . $_SESSION['user_id'] . " AND status = 'pending'";
+$result = mysqli_query($conn, $query);
+$pendingLoanApplication = mysqli_fetch_assoc($result);
+
+if ($pendingLoanApplication) {
+    echo "<script>
+    alert('You cannot send multiple loan requests. Please wait for your current request to be processed.');
+    window.location.href='dashboard.php';
+    </script>";
+    exit;
+}
 include('header.php');
 
 ?>
@@ -39,17 +57,16 @@ include('header.php');
   <form action="submit_loan_application.php" method="post">
   <div class="form-row">
   <div class="form-group col-md-6">
-    <label for="firstName">First Name</label>
-    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" required>
+  <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" value="<?php echo $userInfo ? htmlspecialchars($userInfo['first_name']) : 'Not available'; ?>" required readonly>
   </div>
   <div class="form-group col-md-6">
-    <label for="lastName">Last Name</label>
-    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" required>
+  <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" value="<?php echo $userInfo ? htmlspecialchars($userInfo['last_name']) : 'Not available'; ?>" required readonly>
+
   </div>
 </div>
 <div class="form-group">
-  <label for="email">Email</label>
-  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+<input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?php echo $userInfo ? htmlspecialchars($userInfo['email']) : 'Not available'; ?>" required readonly>
+
 </div>
 <div class="form-group">
   <label for="amount">Loan Amount</label>
@@ -69,6 +86,10 @@ include('header.php');
   <label for="message">Additional Information</label>
   <textarea class="form-control" id="message" name="message" rows="3" placeholder="Any additional information or comments"></textarea>
 </div>
+
+  <img src="captcha.php" alt="CAPTCHA">
+  <input type="text" name="captcha" required>
+
     <button type="submit" class="btn btn-primary">Submit Application</button>
   </form>
 </div>

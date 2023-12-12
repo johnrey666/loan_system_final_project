@@ -10,6 +10,12 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // CAPTCHA verification
+    if ($_POST['captcha'] != $_SESSION['captcha']) {
+        echo "<script>alert('CAPTCHA verification failed.'); window.location.href='loan_form.php';</script>";
+        exit;
+    }
+
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
     $email = $_POST['email'];

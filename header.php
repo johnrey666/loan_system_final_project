@@ -1,3 +1,20 @@
+<?php
+
+
+$query = "SELECT verified FROM users WHERE id = " . $_SESSION['user_id'];
+$result = mysqli_query($conn, $query);
+$user = mysqli_fetch_assoc($result);
+
+// Check if the user is logged in and is not an admin
+if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true || $_SESSION['user_role'] === 'admin') {
+    // User is not authenticated or is an admin, redirect to the admin dashboard page
+    header('Location: admin_dashboard.php');
+    exit;
+
+    
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +39,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
         <a class="nav-item nav-link active" href="#">Profile</a>
-        <a class="nav-item nav-link" href="user_info_form.php">User Form</a>
-        <a class="nav-item nav-link" href="#">Loan Form</a>
+        <?php if ($user && $user['verified'] != 1): ?>
+    <a class="nav-item nav-link" href="user_info_form.php">User Form</a>
+        <?php endif; ?>
+        <a class="nav-item nav-link" href="loan_form.php">Loan Form</a>
         </div>
         
         <div class="navbar-nav ml-auto">

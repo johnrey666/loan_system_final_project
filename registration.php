@@ -128,8 +128,8 @@ return empty($errors);
 <form method="post">
 <div class="mb-3" style="width: 400px;">
     <label for="email">Username:</label>
-    <input type="text" class="form-control" id="email" placeholder="Example: Renzo Zuniga" name="u_name" required>
-    <!-- Display the username error message in red text -->
+    <input type="text" class="form-control" id="email" placeholder="Example: Renzo Zuniga" name="u_name" required oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);"> 
+       <!-- Display the username error message in red text -->
     <div style="color: red;"><?php echo $usernameError; ?></div>
 </div>
 
