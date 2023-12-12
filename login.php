@@ -99,6 +99,7 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body class="background-image">
+<header class="header">
 <!-- nav -->
 <div class="topnav">
   <a class="active" href="home.php">Home</a>
@@ -140,7 +141,7 @@ if (isset($_POST['submit'])) {
 </div>
 </center>
 
-
+</header>
 </body>
 </html>
 

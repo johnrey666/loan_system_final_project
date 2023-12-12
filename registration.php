@@ -111,7 +111,7 @@ return empty($errors);
 </head>
 
 <body class="background-image">
-    
+<header class="header">
 <!-- nav -->
 <div class="topnav">
     <a class="active" href="home.php">Home</a>
@@ -159,7 +159,7 @@ return empty($errors);
 </div>
 </div></center>
 <!-- end of form section -->
-
+</header>
 </body>
 </html>
 

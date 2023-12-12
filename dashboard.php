@@ -25,10 +25,11 @@ if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Profile <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active" href="user-profile.php">Profile <span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link" href="user_info_form.php">User Form</a>
         <a class="nav-item nav-link" href="loan_form.php">Loan Form</a>
         </div>
+       
         <div class="navbar-nav ml-auto">
         <a class="nav-item nav-link" href="logout.php">Logout</a>
         </div>

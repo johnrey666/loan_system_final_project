@@ -8,6 +8,17 @@ if (!isset($_SESSION['user_id'])) {
 }
 $userId = $_SESSION['user_id'];
 
+$query = "SELECT verified FROM user_info WHERE id = " . $_SESSION['user_id'];
+$result = mysqli_query($conn, $query);
+$user = mysqli_fetch_assoc($result);
+
+if ($user['verified'] != 1) {
+  echo "<script>
+  alert('You are not verified. Please wait for the user info to be verified.');
+  window.location.href='dashboard.php';
+</script>";
+    exit;
+}
 
 include('header.php');
 

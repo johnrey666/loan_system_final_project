@@ -1,22 +1,34 @@
-
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-image: url('../images/bgg.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-  color: red; /* Set the text color to white */
-  }
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #fff;
+}
+
+.header {
+  height: 100vh;
+  background-image: 
+  linear-gradient(to right bottom, 
+ rgba(76, 216, 255, 0.8),
+ rgba(30, 108, 217, 0.8)),
+ url('../images/lend2.jpeg');
+  
+background-size: cover;
+  background-position: top;
+  position: relative;
+
+
+}
 
   
   
   .topnav {
     overflow: hidden;
-    background-color: transparent #333;
     background-color: transparent !important; /* Set background color to transparent */
     border-bottom: none; /* Remove the border if needed */
-    background-color: rgba(255, 255, 255, 0.2); /* Set a transparent background color */
-    backdrop-filter: blur(50px); /* Apply the blurry effect */
+ 
+
     padding: 8px;
   }
   

@@ -25,6 +25,7 @@
         <a class="nav-item nav-link" href="user_info_form.php">User Form</a>
         <a class="nav-item nav-link" href="#">Loan Form</a>
         </div>
+        
         <div class="navbar-nav ml-auto">
         <a class="nav-item nav-link" href="logout.php">Logout</a>
         </div>
